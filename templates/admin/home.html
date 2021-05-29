@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            
+          </ul>
+          <form class="form-inline my-2 my-lg-0 float-right pt-4">
+            <input multiple  id="fileInput" type="file" style="display:none;" />
+            <a href="#" onclick="document.getElementById('fileInput').click(); " id="click" class="btn btn-primary btn-lg">
+              <span class="glyphicon glyphicon-plus"></span> Add New Image 
+            </a>
+            <!-- " type="file" value='Add New Post' accept="image/"> -->
+          </form>
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col-lg-1">
+
+        </div>
+
+        <div class="col-md-12 col-lg-10" id="preview">
+      </div>
+      <div class="col-lg-1"></div>
+
+      </div>
+      <div class="row mt-5" id="hidden" hidden>
+        <div class="container">
+          <div class="col-lg-6">
+
+          <textarea name="description" id="description" placeholder="description"  cols="30" rows="10"></textarea>
+        </div>
+        <div class="col-lg-6">
+          <select name="" id="tags">
+            <option id="cars" value=""></option>
+            <option id="bikes" value=""></option>
+            <option id="animals" value=""></option>
+            <option id="birds" value=""></option>
+            <option id="buildings" value=""></option>
+            <option id="sports" value=""></option>
+            <option id="models" value=""></option>
+            <option id="travel" value=""></option>
+            <option id="movies" value=""></option>
+            <option id="technology" value=""></option>
+          </select>
+        </div>
+        </div>
+      </div>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script>
+  function previewImages() {
+
+var preview = document.querySelector('#preview');
+
+if (this.files) {
+  [].forEach.call(this.files, readAndPreview);
+}
+
+
+function readAndPreview(file) {
+  
+  // Make sure `file.name` matches our extensions criteria
+  if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+    return alert(file.name + " is not an image");
+  } // else...
+  
+  var reader = new FileReader();
+  
+  reader.addEventListener("load", function() {
+    var image = new Image();
+    image.height = 100;
+    image.title  = file.name;
+    image.src    = this.result;
+    preview.appendChild(image);
+  });
+  
+  reader.readAsDataURL(file);
+  
+}
+
+}
+
+document.querySelector('#fileInput').addEventListener("change", previewImages);
+
+$('#click').click(function(){
+  console.log('he');
+  $('#description').show()
+  $('#tags').show()
+})
+</script>
+</body>
+</html>
