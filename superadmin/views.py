@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
+from .models import Tags
 
 # Create your views here.
 
@@ -21,7 +22,11 @@ def login(request):
     
 @login_required(login_url='/login/')
 def home(request):
-    return render(request, 'admin/home.html')
+    if request.method == 'POST':
+        pass
+    tags = ['models', 'vehicles', 'movies', 'technology', 'buildings', 'arts', 'science', 'sports', 'bussiness', 'animals', 'birds', 'education']
+    context = {'tags' : tags}
+    return render(request, 'admin/home.html', context)
 
 @login_required(login_url='/login/')
 def logout(request):

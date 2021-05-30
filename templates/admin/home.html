@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+   </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -20,8 +20,8 @@
           </ul>
           <form class="form-inline my-2 my-lg-0 float-right pt-4">
             <input multiple  id="fileInput" type="file" style="display:none;" />
-            <a href="#" onclick="document.getElementById('fileInput').click(); " id="click" class="btn btn-primary btn-lg">
-              <span class="glyphicon glyphicon-plus"></span> Add New Image 
+            <a href="#" onclick="document.getElementById('fileInput').click(); "  style="display: none;"id="click" class="btn btn-primary btn-lg">
+              <span class="glyphicon glyphicon-plus" id="add-image" style="display: none;"></span> Add New Image 
             </a>
             <!-- " type="file" value='Add New Post' accept="image/"> -->
           </form>
@@ -37,40 +37,92 @@
       <div class="col-lg-1"></div>
 
       </div>
-      <div class="row mt-5" id="hidden" hidden>
+      <div class="row mt-5" id="hidden">
         <div class="container">
+          <div class="row">
           <div class="col-lg-6">
 
-          <textarea name="description" id="description" placeholder="description"  cols="30" rows="10"></textarea>
+          <textarea class="form-control" name="description" id="description" placeholder="description"  cols="30" rows="4"></textarea>
         </div>
-        <div class="col-lg-6">
-          <select name="" id="tags">
-            <option id="cars" value=""></option>
-            <option id="bikes" value=""></option>
-            <option id="animals" value=""></option>
-            <option id="birds" value=""></option>
-            <option id="buildings" value=""></option>
-            <option id="sports" value=""></option>
-            <option id="models" value=""></option>
-            <option id="travel" value=""></option>
-            <option id="movies" value=""></option>
-            <option id="technology" value=""></option>
-          </select>
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="tag" data-target="#myModal">
+         Add Tag
+        </button>
+        
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Add Tag</h4>
+                
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body" style="margin: auto;">
+                <h5 style="margin:1rem;">Add Tag</h5>
+                <div class="col-lg-6">
+                  <label for="added-tag">Tags</label>
+                  <select name="tags" id="added-tag">
+                  {% for tag in tags %}
+                  <option value="{{tag}}">{{tag}}</option>
+                  {% endfor %}
+                </select>
+                </div>
+                  <div class="col-lg-6">
+                    <label for="weight">Weight</label>
+                    <input type="number" id="weight" style="width: 5rem;" max="100" min="1" class="form-control">
+                  </div>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" id="add" class="btn btn-info" data-dismiss="modal" >&times;Add</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+      
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="container">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-6">
+          <input type="button" style="display: none;" value="Submit" class="btn btn-primary lg-5" id="submit">
+        </div>
+        <div class="col-lg-3">
+
         </div>
         </div>
       </div>
+
+      
+
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script> -->
 
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
   function previewImages() {
 
 var preview = document.querySelector('#preview');
 
 if (this.files) {
-  [].forEach.call(this.files, readAndPreview);
+  [].forEach.call(this.files, readAndPreview, submit);
 }
 
 
@@ -80,19 +132,20 @@ function readAndPreview(file) {
   if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
     return alert(file.name + " is not an image");
   } // else...
-  
   var reader = new FileReader();
-  
+  var img;
   reader.addEventListener("load", function() {
     var image = new Image();
     image.height = 100;
     image.title  = file.name;
     image.src    = this.result;
     preview.appendChild(image);
+    
+    img = file.name;
+    
   });
   
   reader.readAsDataURL(file);
-  
 }
 
 }
@@ -100,10 +153,34 @@ function readAndPreview(file) {
 document.querySelector('#fileInput').addEventListener("change", previewImages);
 
 $('#click').click(function(){
-  console.log('he');
   $('#description').show()
-  $('#tags').show()
+  
+  $('#tag').show()
 })
+
+var images = [], addedTag, weight;
+
+
+$('#add').click(function(){
+  addedTag = $('#added-tag').val()
+  weight = $('#weight').val()
+  description = $('#description').val()
+  $('#add-image').show()
+  $('#click').show()
+  $('#submit').show()
+  
+})
+
+$('#submit').click(function(){
+  console.log(img);
+  images.push(image)
+  console.log(images);
+  var image = images;
+  var description = $('#description').val()
+  
+  
+})
+
 </script>
 </body>
 </html>
